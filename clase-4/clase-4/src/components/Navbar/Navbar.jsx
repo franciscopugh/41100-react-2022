@@ -1,5 +1,5 @@
-import Form from "../Form/Form";
 import Categorias from "./Categorias/Categorias";
+import CartWidget from "../CartWidget/CartWidget";
 const Navbar = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -10,8 +10,8 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse">
             <Categorias/>
-            <Form busqueda={"Buscar categorias"}/>
         </div>
+            <CartWidget/>
   </div>
 </nav>
 
