@@ -1,0 +1,10 @@
+.cartWidget {
+    position: relative;
+    left: 33%;
+    color:white;
+}
+
+.cantCarrito {
+    position: relative;
+    left: 13%;
+}
