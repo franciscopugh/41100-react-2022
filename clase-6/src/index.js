@@ -9,3 +9,4 @@ root.render(
     <App />
   </React.StrictMode>
 );
+//Stric Mode ejecuta dos veces
