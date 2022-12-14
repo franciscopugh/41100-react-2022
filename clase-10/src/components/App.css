@@ -10,6 +10,12 @@
     text-align: center;
 }
 
+.cardBodyDark {
+    background-color: hsl(0, 0%, 33%);
+    margin-bottom: 3px;
+    text-align: center;
+}
+
 img {
     margin-top:3px;
 }
@@ -18,17 +24,6 @@ img {
     margin: 4px;
     align-items:center;
     justify-content: center;
-}
-
-.darkMode {
-    background-color: black;
-    color:gainsboro;
-}
-
-.cardBodyDark {
-    background-color: hsl(0, 0%, 33%);
-    margin-bottom: 3px;
-    text-align: center;
 }
 
 .cartWidget {
@@ -44,6 +39,11 @@ img {
 .cantCarrito {
     position: relative;
     left: 15%;
+}
+
+.darkMode {
+    background-color:black;
+    color:gainsboro;
 }
 
 .itemDetail {

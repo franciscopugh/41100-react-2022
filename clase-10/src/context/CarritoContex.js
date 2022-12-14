@@ -1,10 +1,10 @@
 import { useContext, useState, createContext  } from "react";
 
-const carritoContext = createContext()
+const CarritoContext = createContext()
 
-export const useCarritoContext = useContext(carritoContext)
+export const useCarritoContext = () => useContext(CarritoContext)
 
-export const carritoProvider = (props) => {
+export const CarritoProvider = (props) => {
     const [carrito, setCarrito] = useState([]);
     
     //VerCantidad - Agregar productos - Eliminar producto - 
@@ -32,5 +32,30 @@ export const carritoProvider = (props) => {
             setCarrito([...carrito,nuevoProducto])
         }
     }
+
+    const emptyCart = () => {
+        setCarrito([])
+    }
+
+    const removeItem = (id) => {
+        /*const aux = [...carrito]
+        const indice = aux.findIndex(prod => prod.id === id)
+        setCarrito(aux.splice(indice,1))*/
+        setCarrito(carrito.filter(prod => prod.id !== id))
+    }
+
+    const getItemQuantity = () => {
+        return carrito.reduce((acum,prod) => acum += prod.cant, 0)
+    }
+
+    const totalPrice = () => {
+        return carrito.reduce((acum, prod) => acum += (prod.cant * prod.precio), 0)
+    }
+    
+    return (
+        <CarritoContext.Provider value={{carrito, isInCart, addItem, removeItem, emptyCart, getItemQuantity, totalPrice}}>
+            {props.children}
+        </CarritoContext.Provider>
+    )
 
 }
