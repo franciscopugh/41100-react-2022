@@ -1,22 +1,43 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createOrdenCompra, getOrdenCompra} from '../../assets/firebase';
+import { createOrdenCompra, getOrdenCompra, getProducto, updateProducto} from '../../assets/firebase';
 import { useCarritoContext } from "../../context/CarritoContex";
+import { toast } from 'react-toastify';
+
 const Checkout = () => {
-    const {totalPrice} = useCarritoContext()
+    const {totalPrice, carrito, emptyCart} = useCarritoContext()
     const datosFormulario = React.useRef()
     let navigate = useNavigate()
 
     const consultarFormulario = (e) => {
         e.preventDefault()
-        console.log(datosFormulario)
         const datForm = new FormData(datosFormulario.current)
         const cliente = Object.fromEntries(datForm)
+
+        const aux = [...carrito]
+
+        aux.forEach(prodCarrito => {
+            getProducto(prodCarrito.id).then(prodBDD => {
+                if(prodBDD.stock >= prodCarrito.cant) {
+                    prodBDD.stock -= prodCarrito.cant
+                    updateProducto(prodCarrito.id, prodBDD)
+
+                } else {
+                    console.log("Stock no valido")
+                    //CASO USO PRODUCTO NO COMPRADO
+                }
+            })
+        })
+
         createOrdenCompra(cliente,totalPrice(), new Date().toISOString()).then(ordenCompra => {
             getOrdenCompra(ordenCompra.id).then(item => {
-                console.log(item)
+                toast.success(`¡Muchas gracias por su compra, su orden es ${item.id}`)
+                emptyCart()
                 e.target.reset()
                 navigate("/")
+            }).catch(error => {
+                toast.error("Su orden no fue generada con exito")
+                console.error(error)
             })
             
         })
@@ -33,6 +54,10 @@ const Checkout = () => {
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email</label>
                     <input type="email" className="form-control" name="email" />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="email2" className="form-label">Repetir Email</label>
+                    <input type="email" className="form-control" name="email2" />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="dni" className="form-label">DNI</label>
